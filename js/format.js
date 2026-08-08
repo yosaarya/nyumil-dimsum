@@ -41,3 +41,8 @@ export function normalisasiNoWa(input) {
   else if (!s.startsWith('62')) s = `62${s}`;
   return s;
 }
+
+/** "Tobiko" atau "Tobiko ×3" kalau jumlahnya lebih dari 1 (Add On). */
+export function labelOpsi(o) {
+  return o.jumlah > 1 ? `${o.nama_opsi} ×${o.jumlah}` : o.nama_opsi;
+}

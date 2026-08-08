@@ -2,7 +2,7 @@
 // di docs/03-DESIGN.md §1) + pembayaran (F-08) + simpan pesanan (B-01, B-08).
 import { buatPesanan, catatPembayaran } from '../api.js';
 import * as store from '../store.js';
-import { rupiah } from '../format.js';
+import { rupiah, labelOpsi } from '../format.js';
 import { el, sembunyikanShell, tampilkanShell } from '../ui.js';
 
 /**
@@ -34,7 +34,7 @@ function renderStruk(container, kanal, keranjang, { onUbah, onLanjut }) {
         el('span', {}, rupiah(item.subtotal)),
       ]),
       ...(item.opsi || []).map((o) =>
-        el('div', { class: 'struk__item-varian' }, `${o.nama_opsi}`)
+        el('div', { class: 'struk__item-varian' }, labelOpsi(o))
       ),
     ])
   );
@@ -146,7 +146,7 @@ function buatPendingBaru(kanal, keranjang, metode, uangDiterima, total, namaKasb
         produk_id: item.produk_id,
         jumlah: item.jumlah,
         catatan: item.catatan || null,
-        opsi: (item.opsi || []).map((o) => ({ opsi_id: o.opsi_id })),
+        opsi: (item.opsi || []).map((o) => ({ opsi_id: o.opsi_id, jumlah: o.jumlah })),
       })),
     },
     metode, uangDiterima, total,

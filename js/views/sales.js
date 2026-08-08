@@ -3,13 +3,13 @@
 // Lihat docs/01-PRD.md §3.1 (Alur A) dan §4 (Fase 1).
 import { katalogProduk } from '../api.js';
 import * as store from '../store.js';
-import { rupiah } from '../format.js';
+import { rupiah, labelOpsi } from '../format.js';
 import { el, bukaSheet } from '../ui.js';
 import { pilihVarian } from './produk-varian.js';
 import { tampilkanKonfirmasi, kirimUlangPending } from './sales-konfirmasi.js';
 import { renderAntrian } from './antrian-dapur.js';
 
-let kanal = 'DINE_IN';
+const kanal = 'BUNGKUS'; // toko cuma jual bungkus, tidak ada dine in
 let produkCache = null;
 
 export async function render(container) {
@@ -56,20 +56,8 @@ function jumlahDiKeranjang(produkId) {
 function gambarKatalog(container) {
   container.innerHTML = '';
 
-  const tombolKanal = ['DINE_IN', 'BUNGKUS'].map((k) =>
-    el(
-      'button',
-      {
-        class: `pill${kanal === k ? ' pill--aktif' : ''}`,
-        onclick: () => { kanal = k; gambarKatalog(container); },
-      },
-      k === 'DINE_IN' ? 'Dine In' : 'Bungkus'
-    )
-  );
-
   const kartuProduk = produkCache.map((produk) => renderKartuProduk(produk, container));
 
-  container.appendChild(el('div', { class: 'kasir-toggle-kanal' }, tombolKanal));
   container.appendChild(el('div', { class: 'grid-produk', style: 'margin-top:var(--s4);' }, kartuProduk));
 
   const bagianDapur = el('div', { style: 'padding: 0 var(--s4) 96px;' });
@@ -155,7 +143,7 @@ function gambarIsiKeranjang(kontenSheet, container, overlay) {
     el('div', { class: 'baris-keranjang' }, [
       el('div', { class: 'baris-keranjang__info' }, [
         el('div', { class: 'baris-keranjang__nama' }, item.nama_produk),
-        ...(item.opsi || []).map((o) => el('div', { class: 'baris-keranjang__varian' }, o.nama_opsi)),
+        ...(item.opsi || []).map((o) => el('div', { class: 'baris-keranjang__varian' }, labelOpsi(o))),
       ]),
       el('div', { class: 'baris-keranjang__qty' }, [
         el('button', {

@@ -3,7 +3,7 @@
 // kedai) dan Order (pesanan WA) lewat renderAntrian(container, filterFn).
 // Lihat docs/01-PRD.md §3.3 (Alur C), §5 (acceptance F-07), CLAUDE.md B-10/B-11.
 import { antrianDapur, tandaiItemSelesai, ubahStatusPesanan } from '../api.js';
-import { jamId } from '../format.js';
+import { jamId, labelOpsi } from '../format.js';
 import { el, toast } from '../ui.js';
 
 /**
@@ -84,7 +84,7 @@ function kartuBerjalan(p, container, filterFn) {
       el('span', { class: 'item-dapur__cek' }, ''),
       el('div', {}, [
         el('div', { class: 'item-dapur__nama' }, `${item.jumlah}× ${item.nama_produk}`),
-        ...(item.pesanan_item_opsi || []).map((o) => el('div', { class: 'item-dapur__varian' }, o.nama_opsi)),
+        ...(item.pesanan_item_opsi || []).map((o) => el('div', { class: 'item-dapur__varian' }, labelOpsi(o))),
       ]),
     ]);
 

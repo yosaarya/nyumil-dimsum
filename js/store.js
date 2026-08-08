@@ -30,7 +30,7 @@ export function tambahItem(item) {
 
 function kunciOpsi(item) {
   return (item.opsi || [])
-    .map((o) => o.opsi_id)
+    .map((o) => `${o.opsi_id}:${o.jumlah || 1}`)
     .sort()
     .join(',');
 }

@@ -12,6 +12,8 @@ Aturan: file yang sudah pernah dijalankan **tidak pernah diedit**. Perubahan ber
 | 006 | `migrations/006_menu_asli.sql` | ☑ Sudah | 8 Agu 2026 |
 | 007 | `migrations/007_grant_akses_dasar.sql` | ☑ Sudah | 8 Agu 2026 |
 | 008 | `migrations/008_tambah_stok_bahan.sql` | ☐ Belum | |
+| 009 | `migrations/009_topping_pilih_banyak.sql` | ☐ Belum | |
+| 010 | `migrations/010_jumlah_opsi_addon.sql` | ☐ Belum | |
 
 **Migrasi terakhir yang sudah jalan di Supabase: 007.**
 

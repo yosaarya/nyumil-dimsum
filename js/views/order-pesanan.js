@@ -1,7 +1,7 @@
 // js/views/order-pesanan.js — F-06: form order WA -> pilih menu -> Cek Pesanan -> rekap.
 // Lihat docs/01-PRD.md §3.2 (Alur B), CLAUDE.md B-26/B-27.
 import { katalogProduk, buatPesanan } from '../api.js';
-import { rupiah, jamId, labelHari, normalisasiNoWa } from '../format.js';
+import { rupiah, jamId, labelHari, normalisasiNoWa, labelOpsi } from '../format.js';
 import { el, sembunyikanShell, tampilkanShell, toast } from '../ui.js';
 import { pilihVarian } from './produk-varian.js';
 
@@ -150,7 +150,7 @@ function kartuProdukWa(produk, container, data, keranjang, onSelesai) {
 }
 
 function tambahAtauGabungLokal(keranjang, itemBaru) {
-  const kunci = (i) => (i.opsi || []).map((o) => o.opsi_id).sort().join(',');
+  const kunci = (i) => (i.opsi || []).map((o) => `${o.opsi_id}:${o.jumlah || 1}`).sort().join(',');
   const sama = keranjang.find(
     (i) => i.produk_id === itemBaru.produk_id && kunci(i) === kunci(itemBaru) && (i.catatan || null) === (itemBaru.catatan || null)
   );
@@ -172,7 +172,7 @@ function renderKonfirmasi(container, data, keranjang, onSelesai) {
         el('span', {}, `${item.jumlah}× ${item.nama_produk}`),
         el('span', {}, rupiah(item.subtotal)),
       ]),
-      ...(item.opsi || []).map((o) => el('div', { class: 'struk__item-varian' }, o.nama_opsi)),
+      ...(item.opsi || []).map((o) => el('div', { class: 'struk__item-varian' }, labelOpsi(o))),
     ])
   );
 
@@ -219,7 +219,7 @@ async function simpanDanRekap(container, data, keranjang, onSelesai, tombolSimpa
       produk_id: item.produk_id,
       jumlah: item.jumlah,
       catatan: item.catatan || null,
-      opsi: (item.opsi || []).map((o) => ({ opsi_id: o.opsi_id })),
+      opsi: (item.opsi || []).map((o) => ({ opsi_id: o.opsi_id, jumlah: o.jumlah })),
     })),
   };
 
@@ -242,7 +242,7 @@ function bangunTeksRekap(data, keranjang, pesanan) {
   };
 
   const baris = keranjang.map((item, i) => {
-    const varian = (item.opsi || []).map((o) => o.nama_opsi).join(', ');
+    const varian = (item.opsi || []).map((o) => labelOpsi(o)).join(', ');
     const namaLengkap = varian ? `${item.nama_produk} (${varian})` : item.nama_produk;
     return barisDenganTitik(`${i + 1}. ${namaLengkap} x${item.jumlah}`, item.subtotal);
   });
