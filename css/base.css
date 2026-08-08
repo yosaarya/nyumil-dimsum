@@ -1,0 +1,45 @@
+/* css/base.css — reset + elemen dasar. Lihat docs/03-DESIGN.md §7 (batas mutu). */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background: var(--krem-kukus);
+  color: var(--arang);
+  font-family: var(--font-ui);
+  font-size: var(--t-md);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh; /* bukan 100vh: bar Safari bikin 100vh meleset */
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: var(--t-md); /* minimal 16px, kalau kurang Safari auto-zoom */
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  min-height: var(--sentuh-min);
+  min-width: var(--sentuh-min);
+}
+
+img { max-width: 100%; display: block; }
+
+:focus-visible {
+  outline: 2px solid var(--hijau-muda);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,47 @@
+/* css/tokens.css — lihat docs/03-DESIGN.md §2 */
+:root {
+  /* --- Warna inti --- */
+  --hijau-kukusan:  #0E3B2E;  /* merek, bar atas, panel pesanan, tombol utama */
+  --hijau-daun:     #17543F;  /* permukaan hijau lebih terang, kartu di atas hijau */
+  --hijau-muda:     #7FB79C;  /* garis, ikon di atas hijau, status aktif */
+  --krem-kukus:     #FBF3EA;  /* latar aplikasi */
+  --putih-gading:   #FFFCF7;  /* kartu, sheet, struk */
+  --arang:          #23201C;  /* teks utama di atas krem */
+  --abu-kabut:      #8C857C;  /* teks sekunder, label */
+  --garis:          #E8DFD2;  /* pembatas */
+
+  /* --- Aksen (dipakai hemat) --- */
+  --sambal:         #D6452B;  /* pedas, batal, peringatan, tanda wajib */
+  --wijen:          #F2A93B;  /* goreng, stok menipis, jam ambil mendekat */
+  --daun-bawang:    #2E8B57;  /* lunas, siap, stok aman */
+
+  /* --- Warna kategori bahan --- */
+  --kat-protein:    #E86A4A;
+  --kat-sayuran:    #5FA97C;
+  --kat-bumbu:      #E0A93C;
+  --kat-buah:       #E15C6B;
+  --kat-dairy:      #6FA8D6;
+  --kat-karbo:      #C08BD1;
+  --kat-lainnya:    #9A9184;
+
+  /* --- Tipografi --- */
+  --font-merek: "Fraunces", Georgia, serif;              /* judul & nama merek saja */
+  --font-ui:    "Plus Jakarta Sans", -apple-system, sans-serif;
+  --font-angka: "DM Mono", "Courier New", monospace;     /* harga, nomor antrian, struk */
+
+  --t-xs: 12px;  --t-sm: 14px;  --t-md: 16px;
+  --t-lg: 20px;  --t-xl: 26px;  --t-2xl: 34px;  --t-3xl: 46px;
+
+  /* --- Jarak (kelipatan 4) --- */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px;
+
+  /* --- Bentuk --- */
+  --r-sm: 10px; --r-md: 16px; --r-lg: 22px; --r-pill: 999px;
+  --bayang-kartu: 0 1px 2px rgba(35,32,28,.06), 0 4px 12px rgba(35,32,28,.05);
+  --bayang-panel: 0 -8px 28px rgba(14,59,46,.16);
+
+  /* --- Ukuran sentuh --- */
+  --sentuh-min: 48px;
+  --sentuh-utama: 56px;
+}
