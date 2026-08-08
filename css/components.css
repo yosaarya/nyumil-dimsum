@@ -558,3 +558,56 @@
   font-size: var(--t-sm);
 }
 .baris-ringkas:last-child { border-bottom: none; }
+
+/* Tab Inventory — lihat docs/03-DESIGN.md §3 (Kartu kategori bahan) */
+.kategori-baris {
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s4) 0;
+  overflow-x: auto;
+}
+.kategori-chip {
+  flex-shrink: 0;
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r-pill);
+  background: var(--putih-gading);
+  color: var(--arang);
+  border: 1px solid var(--garis);
+  white-space: nowrap;
+}
+.kategori-chip--aktif {
+  background: var(--merah-marun);
+  color: var(--putih-gading);
+  border-color: var(--merah-marun);
+}
+
+.ubin-kategori {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s2);
+}
+.ubin-kategori__item {
+  aspect-ratio: 1;
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.15s, color 0.15s;
+}
+.ubin-kategori__item .ikon { font-size: 28px; }
+@media (prefers-reduced-motion: reduce) {
+  .ubin-kategori__item { transition: none; }
+}
+
+.langkah-judul {
+  font-weight: 700;
+  margin: var(--s4) 0 var(--s2);
+}
+
+.lencana--aman { background: var(--daun-bawang); color: #fff; }
+.lencana--menipis { background: var(--wijen); color: var(--arang); }
+.lencana--expired { background: var(--sambal); color: #fff; }

@@ -74,9 +74,16 @@ export async function ubahStatusPesanan(pesananId, status) {
 }
 
 export async function stokBahan({ kategori } = {}) {
-  let query = supabase.from('v_stok_bahan').select('*');
+  let query = supabase.from('v_stok_bahan').select('*').order('nama');
   if (kategori) query = query.eq('kategori', kategori);
   const { data, error } = await query;
+  if (error) throw error;
+  return data;
+}
+
+/** @param {object} p lihat db/migrations/008_tambah_stok_bahan.sql untuk bentuknya */
+export async function tambahStokBahan(p) {
+  const { data, error } = await supabase.rpc('tambah_stok_bahan', { p });
   if (error) throw error;
   return data;
 }
@@ -145,6 +152,67 @@ export async function orderTerdekat() {
     .not('waktu_ambil', 'is', null)
     .order('waktu_ambil')
     .limit(5);
+  if (error) throw error;
+  return data;
+}
+
+/** @param {string} tanggal 'YYYY-MM-DD' — dasar tab Finance. null kalau belum ada pesanan SELESAI. */
+export async function ringkasanTanggal(tanggal) {
+  const { data, error } = await supabase.from('v_penjualan_harian').select('*').eq('tanggal', tanggal).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function produkTerlarisTanggal(tanggal) {
+  const { data, error } = await supabase
+    .from('v_produk_terlaris')
+    .select('*')
+    .eq('tanggal_operasi', tanggal)
+    .order('terjual', { ascending: false })
+    .limit(5);
+  if (error) throw error;
+  return data;
+}
+
+/** Total per metode bayar (TUNAI/QRIS/TRANSFER/BELUM_BAYAR) untuk satu tanggal_operasi. */
+export async function rincianPembayaranTanggal(tanggal) {
+  const { data, error } = await supabase
+    .from('pembayaran')
+    .select('metode, jumlah, pesanan!inner(tanggal_operasi)')
+    .eq('pesanan.tanggal_operasi', tanggal);
+  if (error) throw error;
+  const total = { TUNAI: 0, QRIS: 0, TRANSFER: 0 };
+  for (const baris of data) total[baris.metode] = (total[baris.metode] || 0) + baris.jumlah;
+  return total;
+}
+
+export async function ambilTutupKasir(tanggal) {
+  const { data, error } = await supabase.from('tutup_kasir').select('*').eq('tanggal', tanggal).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+/** tanggal terkunci otomatis lewat primary key tutup_kasir.tanggal — tidak bisa ditutup dua kali. */
+export async function simpanTutupKasir(p) {
+  const { data: userData, error: errorUser } = await supabase.auth.getUser();
+  if (errorUser) throw errorUser;
+
+  const { data, error } = await supabase
+    .from('tutup_kasir')
+    .insert({
+      tanggal: p.tanggal,
+      total_omzet: p.totalOmzet,
+      total_tunai: p.totalTunai,
+      total_qris: p.totalQris,
+      total_transfer: p.totalTransfer,
+      jumlah_pesanan: p.jumlahPesanan,
+      uang_fisik: p.uangFisik,
+      selisih: p.uangFisik - p.totalTunai,
+      catatan: p.catatan || null,
+      ditutup_oleh: userData.user.id,
+    })
+    .select()
+    .single();
   if (error) throw error;
   return data;
 }
