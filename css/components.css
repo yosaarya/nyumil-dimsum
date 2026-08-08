@@ -13,7 +13,7 @@
   height: 56px;
   padding: 0 var(--s4);
   padding-top: env(safe-area-inset-top);
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   color: var(--putih-gading);
   flex-shrink: 0;
 }
@@ -54,7 +54,7 @@
   color: var(--abu-kabut);
 }
 .tab-bar__item[aria-current="page"] {
-  color: var(--hijau-kukusan);
+  color: var(--merah-marun);
   font-weight: 600;
 }
 
@@ -66,10 +66,10 @@
   font-size: var(--t-md);
   padding: 0 var(--s4);
 }
-.btn--utama { background: var(--hijau-kukusan); color: var(--putih-gading); }
-.btn--kedua { background: transparent; color: var(--hijau-kukusan); border: 1.5px solid var(--hijau-kukusan); }
+.btn--utama { background: var(--merah-marun); color: var(--putih-gading); }
+.btn--kedua { background: transparent; color: var(--merah-marun); border: 1.5px solid var(--merah-marun); }
 .btn--bahaya { background: transparent; color: var(--sambal); border: 1.5px solid var(--sambal); }
-.btn--ketiga { background: transparent; color: var(--hijau-kukusan); }
+.btn--ketiga { background: transparent; color: var(--merah-marun); }
 .btn--nonaktif { background: var(--garis); color: var(--abu-kabut); }
 
 /* Kartu produk */
@@ -80,7 +80,7 @@
   padding: var(--s3);
   min-height: 120px;
 }
-.kartu-produk--terpilih { border: 2px solid var(--hijau-kukusan); }
+.kartu-produk--terpilih { border: 2px solid var(--merah-marun); }
 
 /* Layar login */
 .login-bungkus {
@@ -105,7 +105,7 @@
   font-family: var(--font-merek);
   font-weight: 600;
   font-size: var(--t-2xl);
-  color: var(--hijau-kukusan);
+  color: var(--merah-marun);
   text-align: center;
 }
 .login-sub {
@@ -210,12 +210,12 @@
   text-align: center;
   padding: var(--s3) 0;
   border-radius: var(--r-pill);
-  border: 1.5px solid var(--hijau-kukusan);
-  color: var(--hijau-kukusan);
+  border: 1.5px solid var(--merah-marun);
+  color: var(--merah-marun);
   font-weight: 600;
 }
 .pill--aktif {
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   color: var(--putih-gading);
 }
 
@@ -235,9 +235,9 @@
   white-space: nowrap;
 }
 .kategori-chip--aktif {
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   color: var(--putih-gading);
-  border-color: var(--hijau-kukusan);
+  border-color: var(--merah-marun);
 }
 
 /* Grid produk */
@@ -256,12 +256,12 @@
   gap: var(--s1);
 }
 .kartu-produk__nama { font-weight: 600; font-size: var(--t-sm); }
-.kartu-produk__harga { font-family: var(--font-angka); color: var(--hijau-daun); }
+.kartu-produk__harga { font-family: var(--font-angka); color: var(--merah-bata); }
 .kartu-produk__lencana-qty {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   color: #fff;
   min-width: 24px;
   height: 24px;
@@ -287,7 +287,7 @@
   position: sticky;
   bottom: 0;
   margin: 0 var(--s3) calc(var(--s3) + env(safe-area-inset-bottom));
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   border-radius: var(--r-lg);
   box-shadow: var(--bayang-panel);
   padding: var(--s3) var(--s4);
@@ -312,7 +312,7 @@
 }
 .baris-keranjang__info { flex: 1; }
 .baris-keranjang__nama { font-weight: 600; }
-.baris-keranjang__varian { font-size: var(--t-sm); color: var(--hijau-daun); }
+.baris-keranjang__varian { font-size: var(--t-sm); color: var(--merah-bata); }
 .baris-keranjang__qty { display: flex; align-items: center; gap: var(--s2); }
 .qty-tombol {
   width: 36px;
@@ -341,7 +341,7 @@
   text-align: left;
 }
 .opsi-varian--terpilih {
-  border-color: var(--hijau-kukusan);
+  border-color: var(--merah-marun);
   background: rgba(14, 59, 46, 0.06);
 }
 .opsi-varian__harga { margin-left: auto; font-family: var(--font-angka); color: var(--abu-kabut); }
@@ -383,7 +383,7 @@
   font-weight: 600;
   font-size: var(--t-lg);
   text-align: center;
-  color: var(--hijau-kukusan);
+  color: var(--merah-marun);
 }
 .struk__meta {
   text-align: center;
@@ -395,7 +395,7 @@
 .struk__garis { border: none; border-top: 1px dashed var(--garis); margin: var(--s3) 0; }
 .struk__item { margin-bottom: var(--s3); }
 .struk__item-baris { display: flex; justify-content: space-between; font-size: var(--t-md); font-weight: 600; }
-.struk__item-varian { font-size: var(--t-sm); color: var(--hijau-daun); margin-top: 2px; }
+.struk__item-varian { font-size: var(--t-sm); color: var(--merah-bata); margin-top: 2px; }
 .struk__total { display: flex; justify-content: space-between; font-size: var(--t-xl); font-weight: 500; margin-top: var(--s3); }
 
 .konfirmasi-pertanyaan { text-align: center; margin: var(--s4) 0; font-weight: 600; }
@@ -419,9 +419,9 @@
   background: var(--putih-gading);
 }
 .bayar-metode__opsi--aktif {
-  border-color: var(--hijau-kukusan);
+  border-color: var(--merah-marun);
   background: rgba(14, 59, 46, 0.06);
-  color: var(--hijau-kukusan);
+  color: var(--merah-marun);
 }
 .kembalian-besar {
   text-align: center;
@@ -439,7 +439,7 @@
 .nomor-antrian-layar {
   position: fixed;
   inset: 0;
-  background: var(--hijau-kukusan);
+  background: var(--merah-marun);
   color: #fff;
   display: flex;
   flex-direction: column;

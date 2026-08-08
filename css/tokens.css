@@ -1,9 +1,9 @@
 /* css/tokens.css — lihat docs/03-DESIGN.md §2 */
 :root {
-  /* --- Warna inti --- */
-  --hijau-kukusan:  #0E3B2E;  /* merek, bar atas, panel pesanan, tombol utama */
-  --hijau-daun:     #17543F;  /* permukaan hijau lebih terang, kartu di atas hijau */
-  --hijau-muda:     #7FB79C;  /* garis, ikon di atas hijau, status aktif */
+  /* --- Warna inti (mengikuti logo asli Nyumil Dimsum) --- */
+  --merah-marun:    #7A1F2B;  /* merek, bar atas, panel pesanan, tombol utama */
+  --merah-bata:     #A32E3E;  /* permukaan merah lebih terang, kartu di atas marun */
+  --merah-muda-terang: #E8A0AC; /* garis, ikon di atas marun, status aktif */
   --krem-kukus:     #FBF3EA;  /* latar aplikasi */
   --putih-gading:   #FFFCF7;  /* kartu, sheet, struk */
   --arang:          #23201C;  /* teks utama di atas krem */

@@ -11,7 +11,9 @@ Dua gambar acuan bicara dua hal berbeda, dan keduanya dipakai:
 - **Gambar 2 (POS hijau tua)** → dipakai untuk **cara kerja**: kartu produk besar, panel pesanan yang selalu terlihat, tab kategori di atas, tombol aksi tunggal yang jelas.
 - **Gambar 1 (layar bahan, krem hangat, kartu kategori berwarna)** → dipakai untuk **rasa**: latar hangat, kartu berwarna per kategori, tab bar di bawah, langkah bernomor (1 · 2 · 3).
 
-Gabungannya: **hijau tua sebagai warna merek dan permukaan aksi; krem hangat sebagai latar kerja sehari-hari.** Hijau muncul di bar atas, tab aktif, panel pesanan, dan tombol utama. Sisanya krem supaya layar tidak berat dibaca berjam-jam di kedai yang terang.
+Gabungannya: **merah marun sebagai warna merek dan permukaan aksi; krem hangat sebagai latar kerja sehari-hari.** Marun muncul di bar atas, tab aktif, panel pesanan, dan tombol utama. Sisanya krem supaya layar tidak berat dibaca berjam-jam di kedai yang terang.
+
+> **Update:** warna merek awalnya hijau tua (dari dua gambar acuan generik di atas), lalu diganti **merah marun** supaya cocok dengan logo asli Nyumil Dimsum (marun + emas/putih, maskot kelinci). Prinsip tata letak & komponen di bawah tidak berubah, cuma warnanya — lihat token di §2.
 
 Gambar 2 itu tata letak layar lebar (panel kanan). iPhone portrait tidak muat begitu — panel pesanan jadi **bar melayang di bawah yang bisa ditarik jadi lembar penuh**. Isinya sama persis, cuma posisinya pindah.
 
@@ -24,10 +26,10 @@ Gambar 2 itu tata letak layar lebar (panel kanan). iPhone portrait tidak muat be
 ```css
 /* css/tokens.css */
 :root {
-  /* --- Warna inti --- */
-  --hijau-kukusan:  #0E3B2E;  /* merek, bar atas, panel pesanan, tombol utama */
-  --hijau-daun:     #17543F;  /* permukaan hijau lebih terang, kartu di atas hijau */
-  --hijau-muda:     #7FB79C;  /* garis, ikon di atas hijau, status aktif */
+  /* --- Warna inti (mengikuti logo asli Nyumil Dimsum) --- */
+  --merah-marun:    #7A1F2B;  /* merek, bar atas, panel pesanan, tombol utama */
+  --merah-bata:     #A32E3E;  /* permukaan merah lebih terang, kartu di atas marun */
+  --merah-muda-terang: #E8A0AC; /* garis, ikon di atas marun, status aktif */
   --krem-kukus:     #FBF3EA;  /* latar aplikasi */
   --putih-gading:   #FFFCF7;  /* kartu, sheet, struk */
   --arang:          #23201C;  /* teks utama di atas krem */
@@ -82,10 +84,10 @@ Muat font seperlunya: Fraunces hanya berat 600, Plus Jakarta Sans 400/600/800, D
 ### Tombol
 | Jenis | Tampilan | Dipakai untuk |
 |---|---|---|
-| Utama | latar `--hijau-kukusan`, teks putih, tinggi 56px, radius `--r-md`, huruf 18px/700 | satu per layar: "Ya, Buat Pesanan", "Simpan" |
-| Kedua | latar transparan, garis 1.5px `--hijau-kukusan`, teks hijau | "Ubah", "Kembali" |
+| Utama | latar `--merah-marun`, teks putih, tinggi 56px, radius `--r-md`, huruf 18px/700 | satu per layar: "Ya, Buat Pesanan", "Simpan" |
+| Kedua | latar transparan, garis 1.5px `--merah-marun`, teks marun | "Ubah", "Kembali" |
 | Bahaya | teks & garis `--sambal` | "Batalkan Pesanan" |
-| Ketiga | teks hijau tanpa garis | aksi jarang |
+| Ketiga | teks marun tanpa garis | aksi jarang |
 | Nonaktif | latar `--garis`, teks `--abu-kabut`, **tanpa** transparansi | tombol "Siap" yang masih terkunci |
 
 Tombol nonaktif harus terlihat jelas nonaktif tapi tetap terbaca, dan menekannya menampilkan alasan: *"Centang semua item dulu."* Tombol mati yang diam saja bikin orang mengira aplikasinya rusak.
@@ -96,8 +98,8 @@ Tombol nonaktif harus terlihat jelas nonaktif tapi tetap terbaca, dan menekannya
 │  ┌───────────────────┐  │   • latar --putih-gading
 │  │      gambar       │  │   • radius --r-md, bayangan kartu
 │  │   (1:1, opsional) │  │   • ketuk = +1
-│  └───────────────────┘  │   • kalau qty > 0: garis 2px hijau
-│  Dimsum Ayam            │     + lencana angka hijau di pojok kanan atas
+│  └───────────────────┘  │   • kalau qty > 0: garis 2px marun
+│  Dimsum Ayam            │     + lencana angka marun di pojok kanan atas
 │  Rp 15.000        ⑵     │   • kalau punya pilihan wajib: titik --sambal
 └─────────────────────────┘     di pojok kiri atas + label "pilih varian"
 ```
@@ -106,7 +108,7 @@ Grid 2 kolom di iPhone, 3–4 kolom di tablet. Tinggi kartu minimal 120px.
 ### Bar pesanan (bawah, selalu terlihat kalau keranjang terisi)
 ```
 ╭───────────────────────────────────────────╮
-│  3 item                    Rp 58.000   ▲  │   latar --hijau-kukusan
+│  3 item                    Rp 58.000   ▲  │   latar --merah-marun
 │  [        CEK PESANAN               ]     │   teks putih, sudut atas --r-lg
 ╰───────────────────────────────────────────╯   bayangan panel
 ```
@@ -120,7 +122,7 @@ Ditarik ke atas → jadi lembar berisi daftar item lengkap dengan tombol +/− p
    │      Bungkus · 07 Agu 16.04  │   mono 12px, --abu-kabut
    │  ──────────────────────────  │
    │  2× Dimsum Ayam                  │   16px/600
-   │     Kukus · Pedas Sedang          │   14px, --hijau-daun  ← varian selalu tampil
+   │     Kukus · Pedas Sedang          │   14px, --merah-bata  ← varian selalu tampil
    │                    Rp 30.000      │   mono, rata kanan
    │                                   │
    │  1× Lumpia Udang                  │
@@ -139,7 +141,7 @@ Aturan layar ini: latar `--putih-gading`, satu layar penuh, **tidak ada elemen l
 ### Kartu antrian dapur
 ```
 ┌────────────────────────────────────────┐
-│ #12   ● WA        Rina · ambil 16.00   │  ← lencana sumber: WA hijau muda, Kedai abu
+│ #12   ● WA        Rina · ambil 16.00   │  ← lencana sumber: WA merah muda, Kedai abu
 │ ────────────────────────────────────── │
 │ ☐  2× Dimsum Ayam · Kukus · Pedas      │  ← baris ketuk, tinggi 48px
 │ ☑  1× Lumpia Udang · Saus Extra        │  ← dicentang: teks tercoret, --abu-kabut
@@ -157,7 +159,7 @@ Ubin persegi, radius `--r-md`, latar warna kategori 12% opasitas, ikon 28px berw
 | Status | Warna | Teks |
 |---|---|---|
 | Menunggu konfirmasi | `--wijen` | Tunggu Konfirmasi |
-| Dibuat | `--hijau-daun` | Dibuat |
+| Dibuat | `--merah-bata` | Dibuat |
 | Siap | `--daun-bawang` | Siap Diambil |
 | Selesai | `--abu-kabut` | Selesai |
 | Batal | `--sambal` | Batal |
@@ -174,15 +176,15 @@ Status tidak pernah cuma warna — selalu warna **plus** teks.
 ### Kerangka global
 ```
 ┌──────────────────────────────────┐
-│  Nyumil Dimsum          🔔  👤   │ ← bar atas, --hijau-kukusan, tinggi 56 + safe-area
+│  Nyumil Dimsum          🔔  👤   │ ← bar atas, --merah-marun, tinggi 56 + safe-area
 ├──────────────────────────────────┤
 │                                  │
 │           isi tab                │ ← latar --krem-kukus, dapat digulir
 │                                  │
 ├──────────────────────────────────┤
 │  🧾     💬     🍳     ❄️     📊  │ ← tab bar, --putih-gading, garis atas --garis
-│ Kasir  WA   Dapur  Stok  Laporan │   tab aktif: ikon + label --hijau-kukusan,
-└──────────────────────────────────┘   pil hijau muda di belakang ikon
+│ Kasir  WA   Dapur  Stok  Laporan │   tab aktif: ikon + label --merah-marun,
+└──────────────────────────────────┘   pil merah muda di belakang ikon
 ```
 Tab bar: tinggi 56px + `env(safe-area-inset-bottom)`. Lencana angka merah di tab Dapur kalau ada antrian belum selesai.
 
@@ -244,7 +246,7 @@ Sebelum sebuah layar dianggap selesai:
 - [ ] Bisa dipakai satu tangan: aksi utama berada di sepertiga bawah layar
 - [ ] Terbaca dengan kecerahan layar 50% di ruangan terang
 - [ ] Rasio kontras teks minimal 4.5:1
-- [ ] Fokus keyboard terlihat (garis 2px `--hijau-muda`)
+- [ ] Fokus keyboard terlihat (garis 2px `--merah-muda-terang`)
 - [ ] Tidak ada informasi yang hanya disampaikan lewat warna
 - [ ] `prefers-reduced-motion` dihormati
 - [ ] Tidak ada yang tertutup notch atau indikator home (`env(safe-area-inset-*)`)

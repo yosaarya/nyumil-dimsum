@@ -155,8 +155,8 @@ Payload disimpan di `localStorage` dengan kunci `pending_order` sampai berhasil.
   "short_name": "Nyumil",
   "start_url": "/?src=pwa",
   "display": "standalone",
-  "background_color": "#0E3B2E",
-  "theme_color": "#0E3B2E",
+  "background_color": "#7A1F2B",
+  "theme_color": "#7A1F2B",
   "orientation": "portrait",
   "icons": [
     { "src": "/assets/icon-180.png", "sizes": "180x180", "type": "image/png" },
