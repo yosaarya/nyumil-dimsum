@@ -5,7 +5,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL = 'https://wdzhvboiinpfqwbhvxda.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ZkwB6t5Qqtc3d40FF0jLDA_v14bABtK'; // TODO: isi anon key (bukan service_role)
+const SUPABASE_ANON_KEY = 'sb_publishable_ZkwB6t5Qqtc3d40FF0jLDA_v14bABtK';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true }, // jangan pernah paksa login ulang tiap buka aplikasi
