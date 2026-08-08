@@ -1,7 +1,7 @@
 // js/views/sales.js — F-01..F-05, F-08: katalog, keranjang, cek pesanan.
 // Plus antrian dapur pesanan kedai digabung di bawahnya (bukan tab terpisah).
 // Lihat docs/01-PRD.md §3.1 (Alur A) dan §4 (Fase 1).
-import { katalogProduk, daftarKategori } from '../api.js';
+import { katalogProduk } from '../api.js';
 import * as store from '../store.js';
 import { rupiah } from '../format.js';
 import { el, bukaSheet } from '../ui.js';
@@ -10,9 +10,7 @@ import { tampilkanKonfirmasi, kirimUlangPending } from './sales-konfirmasi.js';
 import { renderAntrian } from './antrian-dapur.js';
 
 let kanal = 'DINE_IN';
-let kategoriAktif = null;
 let produkCache = null;
-let kategoriCache = null;
 
 export async function render(container) {
   const pending = store.ambilPendingOrder();
@@ -26,7 +24,7 @@ export async function render(container) {
 
   try {
     if (!produkCache) {
-      [produkCache, kategoriCache] = await Promise.all([katalogProduk(), daftarKategori()]);
+      produkCache = await katalogProduk();
     }
   } catch (error) {
     console.error('Gagal memuat katalog:', error);
@@ -46,10 +44,6 @@ export async function render(container) {
   }
 
   gambarKatalog(container);
-}
-
-function produkTerfilter() {
-  return kategoriAktif ? produkCache.filter((p) => p.kategori_id === kategoriAktif) : produkCache;
 }
 
 function jumlahDiKeranjang(produkId) {
@@ -73,30 +67,10 @@ function gambarKatalog(container) {
     )
   );
 
-  const chipSemua = el(
-    'button',
-    {
-      class: `kategori-chip${kategoriAktif === null ? ' kategori-chip--aktif' : ''}`,
-      onclick: () => { kategoriAktif = null; gambarKatalog(container); },
-    },
-    'Semua'
-  );
-  const chipKategori = kategoriCache.map((kat) =>
-    el(
-      'button',
-      {
-        class: `kategori-chip${kategoriAktif === kat.id ? ' kategori-chip--aktif' : ''}`,
-        onclick: () => { kategoriAktif = kat.id; gambarKatalog(container); },
-      },
-      `${kat.ikon || ''} ${kat.nama}`.trim()
-    )
-  );
-
-  const kartuProduk = produkTerfilter().map((produk) => renderKartuProduk(produk, container));
+  const kartuProduk = produkCache.map((produk) => renderKartuProduk(produk, container));
 
   container.appendChild(el('div', { class: 'kasir-toggle-kanal' }, tombolKanal));
-  container.appendChild(el('div', { class: 'kategori-baris' }, [chipSemua, ...chipKategori]));
-  container.appendChild(el('div', { class: 'grid-produk' }, kartuProduk));
+  container.appendChild(el('div', { class: 'grid-produk', style: 'margin-top:var(--s4);' }, kartuProduk));
 
   const bagianDapur = el('div', { style: 'padding: 0 var(--s4) 96px;' });
   container.appendChild(bagianDapur);

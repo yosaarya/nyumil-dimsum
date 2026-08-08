@@ -238,27 +238,6 @@
   color: var(--putih-gading);
 }
 
-.kategori-baris {
-  display: flex;
-  gap: var(--s2);
-  padding: var(--s4);
-  overflow-x: auto;
-}
-.kategori-chip {
-  flex-shrink: 0;
-  padding: var(--s2) var(--s4);
-  border-radius: var(--r-pill);
-  background: var(--putih-gading);
-  color: var(--arang);
-  border: 1px solid var(--garis);
-  white-space: nowrap;
-}
-.kategori-chip--aktif {
-  background: var(--merah-marun);
-  color: var(--putih-gading);
-  border-color: var(--merah-marun);
-}
-
 /* Grid produk */
 .grid-produk {
   display: grid;

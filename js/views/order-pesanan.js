@@ -1,13 +1,11 @@
 // js/views/order-pesanan.js — F-06: form order WA -> pilih menu -> Cek Pesanan -> rekap.
 // Lihat docs/01-PRD.md §3.2 (Alur B), CLAUDE.md B-26/B-27.
-import { katalogProduk, daftarKategori, buatPesanan } from '../api.js';
+import { katalogProduk, buatPesanan } from '../api.js';
 import { rupiah, jamId, labelHari, normalisasiNoWa } from '../format.js';
 import { el, sembunyikanShell, tampilkanShell, toast } from '../ui.js';
 import { pilihVarian } from './produk-varian.js';
 
 let produkCache = null;
-let kategoriCache = null;
-let kategoriAktif = null;
 
 export function mulaiPesananBaru(container, onSelesai) {
   sembunyikanShell();
@@ -83,7 +81,7 @@ async function renderKatalog(container, data, keranjang, onSelesai) {
     '<div style="padding:var(--s5);text-align:center;color:var(--abu-kabut);">Memuat menu...</div>';
   try {
     if (!produkCache) {
-      [produkCache, kategoriCache] = await Promise.all([katalogProduk(), daftarKategori()]);
+      produkCache = await katalogProduk();
     }
   } catch (error) {
     container.innerHTML = '';
@@ -104,22 +102,9 @@ async function renderKatalog(container, data, keranjang, onSelesai) {
 function gambarKatalog(container, data, keranjang, onSelesai) {
   container.innerHTML = '';
 
-  const chipSemua = el('button', {
-    class: `kategori-chip${kategoriAktif === null ? ' kategori-chip--aktif' : ''}`,
-    onclick: () => { kategoriAktif = null; gambarKatalog(container, data, keranjang, onSelesai); },
-  }, 'Semua');
-  const chipKategori = kategoriCache.map((kat) =>
-    el('button', {
-      class: `kategori-chip${kategoriAktif === kat.id ? ' kategori-chip--aktif' : ''}`,
-      onclick: () => { kategoriAktif = kat.id; gambarKatalog(container, data, keranjang, onSelesai); },
-    }, `${kat.ikon || ''} ${kat.nama}`.trim())
-  );
+  const kartuProduk = produkCache.map((produk) => kartuProdukWa(produk, container, data, keranjang, onSelesai));
 
-  const daftarProduk = kategoriAktif ? produkCache.filter((p) => p.kategori_id === kategoriAktif) : produkCache;
-  const kartuProduk = daftarProduk.map((produk) => kartuProdukWa(produk, container, data, keranjang, onSelesai));
-
-  container.appendChild(el('div', { class: 'kategori-baris' }, [chipSemua, ...chipKategori]));
-  container.appendChild(el('div', { class: 'grid-produk' }, kartuProduk));
+  container.appendChild(el('div', { class: 'grid-produk', style: 'margin-top:var(--s4);' }, kartuProduk));
 
   if (keranjang.length > 0) {
     const total = keranjang.reduce((t, i) => t + i.subtotal, 0);
