@@ -9,6 +9,7 @@ Aturan: file yang sudah pernah dijalankan **tidak pernah diedit**. Perubahan ber
 | 003 | `003_rls.sql` | ☑ Sudah (versi awal gagal, versi perbaikan berhasil) | 8 Agu 2026 |
 | 004 | `004_seed.sql` | ☑ Sudah | 8 Agu 2026 |
 | 005 | `migrations/005_jaga_status_security_definer.sql` | ☑ Sudah | 8 Agu 2026 |
+| 006 | `migrations/006_menu_asli.sql` | ☐ Belum | |
 
 **Migrasi terakhir yang sudah jalan di Supabase: 005.**
 
