@@ -469,3 +469,63 @@
 }
 .nomor-antrian-layar__label { font-size: var(--t-lg); }
 .nomor-antrian-layar__angka { font-family: var(--font-angka); font-size: var(--t-3xl); font-weight: 700; }
+
+/* Tab Dapur — lihat docs/03-DESIGN.md §3 (Kartu antrian dapur) */
+.dapur-judul-seksi {
+  font-weight: 700;
+  color: var(--abu-kabut);
+  text-transform: uppercase;
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  margin: var(--s4) 0 var(--s2);
+}
+.kartu-dapur {
+  background: var(--putih-gading);
+  border-radius: var(--r-md);
+  box-shadow: var(--bayang-kartu);
+  padding: var(--s4);
+  margin-bottom: var(--s3);
+}
+.kartu-dapur--telat { border-left: 4px solid var(--sambal); }
+.kartu-dapur__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s3);
+}
+.kartu-dapur__nomor { font-family: var(--font-angka); font-weight: 700; font-size: var(--t-lg); }
+.kartu-dapur__meta { font-size: var(--t-sm); color: var(--abu-kabut); text-align: right; }
+.kartu-dapur__telat-label { color: var(--sambal); font-size: var(--t-xs); font-weight: 700; margin-top: var(--s1); }
+.kartu-dapur__garis { border: none; border-top: 1px solid var(--garis); margin: var(--s2) 0; }
+
+.lencana--wa { background: var(--merah-muda-terang); color: var(--merah-marun); }
+.lencana--kedai { background: var(--garis); color: var(--abu-kabut); }
+.lencana--siap { background: var(--daun-bawang); color: #fff; margin-bottom: var(--s3); }
+
+.item-dapur {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--s2) 0;
+  text-align: left;
+}
+.item-dapur__cek {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--garis);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.item-dapur__cek--selesai { background: var(--daun-bawang); border-color: var(--daun-bawang); }
+.item-dapur--selesai .item-dapur__nama { text-decoration: line-through; color: var(--abu-kabut); }
+.item-dapur__varian { font-size: var(--t-xs); color: var(--merah-bata); }
+
+.tombol-siap { width: 100%; margin-top: var(--s2); }

@@ -1,5 +1,5 @@
 // Cache app shell. Naikkan versi CACHE setiap deploy supaya iOS tidak nyangkut di versi lama.
-const CACHE = 'nyumil-v4';
+const CACHE = 'nyumil-v5';
 const APP_SHELL = [
   '/',
   '/index.html',

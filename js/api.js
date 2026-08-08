@@ -22,8 +22,13 @@ export async function buatPesanan(payload) {
   return data;
 }
 
-export async function daftarAntrian() {
-  const { data, error } = await supabase.from('v_antrian_dapur').select('*');
+/** Antrian dapur lengkap dengan item + opsi (bukan cuma ringkasan v_antrian_dapur). */
+export async function antrianDapur() {
+  const { data, error } = await supabase
+    .from('pesanan')
+    .select('*, pesanan_item(*, pesanan_item_opsi(*))')
+    .in('status', ['DIKONFIRMASI', 'DIBUAT', 'SIAP'])
+    .order('created_at');
   if (error) throw error;
   return data;
 }
@@ -33,6 +38,12 @@ export async function tandaiItemSelesai(itemId, selesai = true) {
     .from('pesanan_item')
     .update({ selesai_dibuat: selesai })
     .eq('id', itemId);
+  if (error) throw error;
+}
+
+/** Perpindahan status dijaga trigger jaga_status_pesanan() di database (B-10, B-11). */
+export async function ubahStatusPesanan(pesananId, status) {
+  const { error } = await supabase.from('pesanan').update({ status }).eq('id', pesananId);
   if (error) throw error;
 }
 
