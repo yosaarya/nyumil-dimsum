@@ -27,10 +27,13 @@ export async function render(container) {
       [produkCache, kategoriCache] = await Promise.all([katalogProduk(), daftarKategori()]);
     }
   } catch (error) {
+    console.error('Gagal memuat katalog:', error);
     container.innerHTML = '';
     container.appendChild(
       el('div', { style: 'padding:var(--s5);text-align:center;color:var(--sambal);' }, [
         el('div', {}, 'Gagal memuat menu. Cek sinyal.'),
+        el('div', { style: 'font-size:var(--t-xs);color:var(--abu-kabut);margin-top:var(--s2);' },
+          error?.message || String(error)),
         el('button', {
           class: 'btn btn--kedua', style: 'margin-top:var(--s3);',
           onclick: () => { produkCache = null; render(container); },
