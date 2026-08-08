@@ -28,6 +28,42 @@ export function tambahItem(item) {
   simpanKeranjang();
 }
 
+function kunciOpsi(item) {
+  return (item.opsi || [])
+    .map((o) => o.opsi_id)
+    .sort()
+    .join(',');
+}
+
+/** Gabung ke baris yang sudah ada kalau produk + varian + catatannya sama persis, kalau tidak tambah baris baru. */
+export function tambahAtauGabung(itemBaru) {
+  const sama = keranjang.find(
+    (item) =>
+      item.produk_id === itemBaru.produk_id &&
+      kunciOpsi(item) === kunciOpsi(itemBaru) &&
+      (item.catatan || null) === (itemBaru.catatan || null)
+  );
+  if (sama) {
+    sama.jumlah += itemBaru.jumlah;
+    sama.subtotal = sama.harga_satuan * sama.jumlah;
+  } else {
+    keranjang.push(itemBaru);
+  }
+  simpanKeranjang();
+}
+
+export function ubahJumlah(index, delta) {
+  const item = keranjang[index];
+  if (!item) return;
+  item.jumlah += delta;
+  if (item.jumlah <= 0) {
+    keranjang.splice(index, 1);
+  } else {
+    item.subtotal = item.harga_satuan * item.jumlah;
+  }
+  simpanKeranjang();
+}
+
 export function hapusItem(index) {
   keranjang.splice(index, 1);
   simpanKeranjang();

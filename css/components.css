@@ -140,3 +140,313 @@
   font-size: var(--t-xs);
   font-weight: 600;
 }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: var(--arang);
+  color: #fff;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--r-md);
+  font-size: var(--t-sm);
+  z-index: 200;
+  max-width: 85vw;
+  text-align: center;
+}
+
+/* Input generik (dipakai di luar login juga) */
+.input {
+  height: var(--sentuh-min);
+  border: 1px solid var(--garis);
+  border-radius: var(--r-sm);
+  padding: 0 var(--s3);
+  background: var(--krem-kukus);
+  width: 100%;
+}
+
+/* Sheet (lembar dari bawah) — dipakai ui.js:bukaSheet() */
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 32, 28, 0.4);
+  display: flex;
+  align-items: flex-end;
+  z-index: 50;
+}
+.sheet {
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--putih-gading);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: var(--s5);
+  padding-bottom: calc(var(--s5) + env(safe-area-inset-bottom));
+  box-shadow: var(--bayang-panel);
+  animation: sheet-masuk 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes sheet-masuk {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet { animation: none; }
+}
+.sheet__judul {
+  font-weight: 700;
+  font-size: var(--t-lg);
+  margin-bottom: var(--s4);
+}
+
+/* Tab Kasir: toggle kanal + filter kategori */
+.kasir-toggle-kanal {
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s4) var(--s4) 0;
+}
+.pill {
+  flex: 1;
+  text-align: center;
+  padding: var(--s3) 0;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--hijau-kukusan);
+  color: var(--hijau-kukusan);
+  font-weight: 600;
+}
+.pill--aktif {
+  background: var(--hijau-kukusan);
+  color: var(--putih-gading);
+}
+
+.kategori-baris {
+  display: flex;
+  gap: var(--s2);
+  padding: var(--s4);
+  overflow-x: auto;
+}
+.kategori-chip {
+  flex-shrink: 0;
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r-pill);
+  background: var(--putih-gading);
+  color: var(--arang);
+  border: 1px solid var(--garis);
+  white-space: nowrap;
+}
+.kategori-chip--aktif {
+  background: var(--hijau-kukusan);
+  color: var(--putih-gading);
+  border-color: var(--hijau-kukusan);
+}
+
+/* Grid produk */
+.grid-produk {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s3);
+  padding: 0 var(--s4) calc(var(--s7) + 88px);
+}
+.kartu-produk {
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--s1);
+}
+.kartu-produk__nama { font-weight: 600; font-size: var(--t-sm); }
+.kartu-produk__harga { font-family: var(--font-angka); color: var(--hijau-daun); }
+.kartu-produk__lencana-qty {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--hijau-kukusan);
+  color: #fff;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--t-xs);
+  font-weight: 700;
+}
+.kartu-produk__tanda-varian {
+  position: absolute;
+  top: var(--s2);
+  left: var(--s2);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sambal);
+}
+
+/* Bar pesanan mengambang */
+.bar-pesanan {
+  position: sticky;
+  bottom: 0;
+  margin: 0 var(--s3) calc(var(--s3) + env(safe-area-inset-bottom));
+  background: var(--hijau-kukusan);
+  border-radius: var(--r-lg);
+  box-shadow: var(--bayang-panel);
+  padding: var(--s3) var(--s4);
+  color: #fff;
+}
+.bar-pesanan__ringkas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-angka);
+  margin-bottom: var(--s2);
+}
+.bar-pesanan__tombol { width: 100%; }
+
+/* Baris item di sheet keranjang */
+.baris-keranjang {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--garis);
+}
+.baris-keranjang__info { flex: 1; }
+.baris-keranjang__nama { font-weight: 600; }
+.baris-keranjang__varian { font-size: var(--t-sm); color: var(--hijau-daun); }
+.baris-keranjang__qty { display: flex; align-items: center; gap: var(--s2); }
+.qty-tombol {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 999px;
+  background: var(--krem-kukus);
+  font-weight: 700;
+}
+.baris-keranjang__harga { font-family: var(--font-angka); min-width: 84px; text-align: right; }
+.baris-keranjang__hapus { color: var(--sambal); font-size: var(--t-lg); }
+
+/* Sheet pilihan varian */
+.grup-varian { margin-bottom: var(--s4); }
+.grup-varian__judul { font-weight: 700; margin-bottom: var(--s2); }
+.grup-varian__wajib { color: var(--sambal); font-weight: 400; font-size: var(--t-xs); }
+.opsi-varian {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: var(--s3);
+  border: 1px solid var(--garis);
+  border-radius: var(--r-sm);
+  margin-bottom: var(--s2);
+  text-align: left;
+}
+.opsi-varian--terpilih {
+  border-color: var(--hijau-kukusan);
+  background: rgba(14, 59, 46, 0.06);
+}
+.opsi-varian__harga { margin-left: auto; font-family: var(--font-angka); color: var(--abu-kabut); }
+
+/* Layar Cek Pesanan — elemen tanda pengenal, lihat docs/03-DESIGN.md §1 & §3 */
+.konfirmasi-layar {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--s6) var(--s5);
+  background: var(--krem-kukus);
+}
+.struk {
+  position: relative;
+  background: var(--putih-gading);
+  padding: var(--s5);
+  margin: 18px 0;
+  font-family: var(--font-angka);
+}
+.struk::before,
+.struk::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-image:
+    linear-gradient(-45deg, var(--putih-gading) 8px, transparent 0),
+    linear-gradient(45deg, var(--putih-gading) 8px, transparent 0);
+  background-position: left top;
+  background-repeat: repeat-x;
+  background-size: 16px 16px;
+}
+.struk::before { top: -11px; }
+.struk::after { bottom: -11px; transform: rotate(180deg); }
+
+.struk__merek {
+  font-family: var(--font-merek);
+  font-weight: 600;
+  font-size: var(--t-lg);
+  text-align: center;
+  color: var(--hijau-kukusan);
+}
+.struk__meta {
+  text-align: center;
+  font-size: var(--t-xs);
+  color: var(--abu-kabut);
+  margin-top: 4px;
+  margin-bottom: var(--s3);
+}
+.struk__garis { border: none; border-top: 1px dashed var(--garis); margin: var(--s3) 0; }
+.struk__item { margin-bottom: var(--s3); }
+.struk__item-baris { display: flex; justify-content: space-between; font-size: var(--t-md); font-weight: 600; }
+.struk__item-varian { font-size: var(--t-sm); color: var(--hijau-daun); margin-top: 2px; }
+.struk__total { display: flex; justify-content: space-between; font-size: var(--t-xl); font-weight: 500; margin-top: var(--s3); }
+
+.konfirmasi-pertanyaan { text-align: center; margin: var(--s4) 0; font-weight: 600; }
+.konfirmasi-tombol-baris { display: flex; gap: var(--s3); margin-top: auto; }
+.konfirmasi-tombol-baris .btn { flex: 1; }
+
+/* Layar Pembayaran */
+.bayar-layar { padding: var(--s5); }
+.bayar-metode {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  margin: var(--s4) 0;
+}
+.bayar-metode__opsi {
+  padding: var(--s4);
+  border: 1.5px solid var(--garis);
+  border-radius: var(--r-md);
+  text-align: center;
+  font-weight: 600;
+  background: var(--putih-gading);
+}
+.bayar-metode__opsi--aktif {
+  border-color: var(--hijau-kukusan);
+  background: rgba(14, 59, 46, 0.06);
+  color: var(--hijau-kukusan);
+}
+.kembalian-besar {
+  text-align: center;
+  font-family: var(--font-angka);
+  font-size: var(--t-3xl);
+  color: var(--daun-bawang);
+  margin: var(--s4) 0;
+}
+.bayar-galat {
+  color: var(--sambal);
+  text-align: center;
+  margin: var(--s3) 0;
+}
+
+.nomor-antrian-layar {
+  position: fixed;
+  inset: 0;
+  background: var(--hijau-kukusan);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s3);
+  z-index: 100;
+}
+.nomor-antrian-layar__label { font-size: var(--t-lg); }
+.nomor-antrian-layar__angka { font-family: var(--font-angka); font-size: var(--t-3xl); font-weight: 700; }

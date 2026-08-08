@@ -49,3 +49,25 @@ export async function katalogProduk() {
   if (error) throw error;
   return data;
 }
+
+export async function daftarKategori() {
+  const { data, error } = await supabase
+    .from('kategori_produk')
+    .select('*')
+    .eq('aktif', true)
+    .order('urutan');
+  if (error) throw error;
+  return data;
+}
+
+/** @param {object} p { metode, jumlah, uang_diterima?, referensi? } — lihat B-13/B-14 di CLAUDE.md */
+export async function catatPembayaran(pesananId, p) {
+  const { error } = await supabase.from('pembayaran').insert({
+    pesanan_id: pesananId,
+    metode: p.metode,
+    jumlah: p.jumlah,
+    uang_diterima: p.uang_diterima ?? null,
+    referensi: p.referensi ?? null,
+  });
+  if (error) throw error;
+}

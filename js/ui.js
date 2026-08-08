@@ -22,6 +22,17 @@ export function bukaSheet(kontenEl) {
   return overlay;
 }
 
+/** Sembunyikan bar atas + tab bar global untuk layar penuh (Cek Pesanan, Pembayaran). */
+export function sembunyikanShell() {
+  document.getElementById('bar-atas').hidden = true;
+  document.getElementById('tab-bar').hidden = true;
+}
+
+export function tampilkanShell() {
+  document.getElementById('bar-atas').hidden = false;
+  document.getElementById('tab-bar').hidden = false;
+}
+
 export function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
   for (const [key, value] of Object.entries(attrs)) {

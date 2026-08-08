@@ -1,5 +1,5 @@
 // Cache app shell. Naikkan versi CACHE setiap deploy supaya iOS tidak nyangkut di versi lama.
-const CACHE = 'nyumil-v1';
+const CACHE = 'nyumil-v2';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -11,6 +11,16 @@ const APP_SHELL = [
   '/js/api.js',
   '/js/auth.js',
   '/js/ui.js',
+  '/js/store.js',
+  '/js/format.js',
+  '/js/views/kasir.js',
+  '/js/views/kasir-varian.js',
+  '/js/views/kasir-konfirmasi.js',
+  '/js/views/wa.js',
+  '/js/views/dapur.js',
+  '/js/views/stok.js',
+  '/js/views/produksi.js',
+  '/js/views/laporan.js',
 ];
 
 self.addEventListener('install', (event) => {
