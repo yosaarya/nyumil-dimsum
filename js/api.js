@@ -22,15 +22,41 @@ export async function buatPesanan(payload) {
   return data;
 }
 
-/** Antrian dapur lengkap dengan item + opsi (bukan cuma ringkasan v_antrian_dapur). */
+/**
+ * Antrian dapur lengkap dengan item + opsi (bukan cuma ringkasan v_antrian_dapur).
+ * Pesanan WA yang belum ditandai "pelanggan sudah konfirmasi" sengaja tidak
+ * ikut muncul di sini (B-09) — itu baru kelihatan di tab WA.
+ */
 export async function antrianDapur() {
   const { data, error } = await supabase
     .from('pesanan')
     .select('*, pesanan_item(*, pesanan_item_opsi(*))')
     .in('status', ['DIKONFIRMASI', 'DIBUAT', 'SIAP'])
+    .or('kanal.neq.WA,dikonfirmasi_pelanggan.eq.true')
     .order('created_at');
   if (error) throw error;
   return data;
+}
+
+/** Daftar pesanan WA yang masih aktif (belum selesai/batal), untuk tab WA. */
+export async function daftarPesananWa() {
+  const { data, error } = await supabase
+    .from('pesanan')
+    .select('*, pesanan_item(*, pesanan_item_opsi(*))')
+    .eq('kanal', 'WA')
+    .not('status', 'in', '(SELESAI,BATAL)')
+    .order('created_at');
+  if (error) throw error;
+  return data;
+}
+
+/** B-09: baru boleh masuk dapur (DIBUAT) setelah ini dipanggil. */
+export async function konfirmasiPelangganWa(pesananId) {
+  const { error } = await supabase
+    .from('pesanan')
+    .update({ dikonfirmasi_pelanggan: true })
+    .eq('id', pesananId);
+  if (error) throw error;
 }
 
 export async function tandaiItemSelesai(itemId, selesai = true) {

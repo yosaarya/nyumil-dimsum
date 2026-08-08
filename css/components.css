@@ -471,7 +471,7 @@
 .nomor-antrian-layar__angka { font-family: var(--font-angka); font-size: var(--t-3xl); font-weight: 700; }
 
 /* Tab Dapur — lihat docs/03-DESIGN.md §3 (Kartu antrian dapur) */
-.dapur-judul-seksi {
+.judul-seksi {
   font-weight: 700;
   color: var(--abu-kabut);
   text-transform: uppercase;
@@ -529,3 +529,25 @@
 .item-dapur__varian { font-size: var(--t-xs); color: var(--merah-bata); }
 
 .tombol-siap { width: 100%; margin-top: var(--s2); }
+
+/* Tab WA — lihat docs/03-DESIGN.md §4 (Tab Pesanan WA) */
+.lencana--tunggu { background: var(--wijen); color: var(--arang); }
+.lencana--dibuat { background: var(--merah-bata); color: #fff; }
+
+.wa-fab {
+  position: fixed;
+  right: var(--s4);
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: var(--merah-marun);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--bayang-panel);
+  z-index: 30;
+}

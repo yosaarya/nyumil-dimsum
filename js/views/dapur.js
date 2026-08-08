@@ -41,12 +41,12 @@ async function gambarUlang(container) {
   container.appendChild(bungkus);
 
   if (berjalan.length > 0) {
-    bungkus.appendChild(el('div', { class: 'dapur-judul-seksi' }, 'Sedang Disiapkan'));
+    bungkus.appendChild(el('div', { class: 'judul-seksi' }, 'Sedang Disiapkan'));
     berjalan.forEach((p) => bungkus.appendChild(kartuBerjalan(p, container)));
   }
 
   if (siap.length > 0) {
-    bungkus.appendChild(el('div', { class: 'dapur-judul-seksi' }, 'Siap Diambil'));
+    bungkus.appendChild(el('div', { class: 'judul-seksi' }, 'Siap Diambil'));
     siap.forEach((p) => bungkus.appendChild(kartuSiap(p, container)));
   }
 }
