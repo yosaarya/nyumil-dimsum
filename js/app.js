@@ -4,10 +4,11 @@ import { renderLogin, keluar } from './auth.js';
 import * as home from './views/home.js';
 import * as sales from './views/sales.js';
 import * as order from './views/order.js';
+import * as kitchen from './views/produksi.js';
 import * as inventory from './views/inventory.js';
 import * as finance from './views/finance.js';
 
-const VIEWS = { home, sales, order, inventory, finance };
+const VIEWS = { home, sales, order, kitchen, inventory, finance };
 
 const barAtas = document.getElementById('bar-atas');
 const isiTab = document.getElementById('isi-tab');

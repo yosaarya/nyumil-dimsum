@@ -14,6 +14,8 @@ Aturan: file yang sudah pernah dijalankan **tidak pernah diedit**. Perubahan ber
 | 008 | `migrations/008_tambah_stok_bahan.sql` | ☐ Belum | |
 | 009 | `migrations/009_topping_pilih_banyak.sql` | ☐ Belum | |
 | 010 | `migrations/010_jumlah_opsi_addon.sql` | ☐ Belum | |
+| 011 | `migrations/011_simpan_resep.sql` | ☐ Belum | |
+| 012 | `migrations/012_produk_olahan_dapur.sql` | ☐ Belum | |
 
 **Migrasi terakhir yang sudah jalan di Supabase: 007.**
 

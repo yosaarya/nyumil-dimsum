@@ -98,6 +98,53 @@ export async function katalogProduk() {
   return data;
 }
 
+/** Semua produk termasuk yang tidak dijual (mis. Chili Oil), untuk pilihan di tab Kitchen. */
+export async function produkUntukProduksi() {
+  const { data, error } = await supabase.from('produk').select('id, nama').order('nama');
+  if (error) throw error;
+  return data;
+}
+
+/** Resep produk (bahan + jumlah per batch), untuk tab Kitchen. null kalau belum diatur. */
+export async function resepProduk(produkId) {
+  const { data, error } = await supabase
+    .from('resep')
+    .select('*, resep_item(*, bahan(nama, satuan))')
+    .eq('produk_id', produkId)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+/** @param {object} p lihat db/migrations/011_simpan_resep.sql untuk bentuknya */
+export async function simpanResep(p) {
+  const { data, error } = await supabase.rpc('simpan_resep', { p });
+  if (error) throw error;
+  return data;
+}
+
+/** F-15: catat produksi — otomatis potong stok bahan lewat resep kalau sudah diatur (B-22). */
+export async function catatProduksi(produkId, jumlah, catatan) {
+  const { data, error } = await supabase.rpc('catat_produksi', {
+    p_produk_id: produkId,
+    p_jumlah: jumlah,
+    p_catatan: catatan || null,
+  });
+  if (error) throw error;
+  return data;
+}
+
+/** Riwayat produksi terbaru, untuk tab Kitchen. */
+export async function daftarProduksi() {
+  const { data, error } = await supabase
+    .from('produksi')
+    .select('*, produk(nama)')
+    .order('created_at', { ascending: false })
+    .limit(50);
+  if (error) throw error;
+  return data;
+}
+
 /** @param {object} p { metode, jumlah, uang_diterima?, referensi? } — lihat B-13/B-14 di CLAUDE.md */
 export async function catatPembayaran(pesananId, p) {
   const { error } = await supabase.from('pembayaran').insert({
