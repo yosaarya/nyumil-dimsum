@@ -545,5 +545,16 @@
   padding: var(--s4);
   text-align: center;
 }
-.kartu-stat__nilai { font-family: var(--font-angka); font-size: var(--t-2xl); font-weight: 700; color: var(--merah-marun); }
+.kartu-stat__nilai { font-family: var(--font-angka); font-size: var(--t-xl); font-weight: 700; color: var(--merah-marun); }
 .kartu-stat__label { font-size: var(--t-sm); color: var(--abu-kabut); margin-top: var(--s1); }
+
+.baris-ringkas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--garis);
+  font-size: var(--t-sm);
+}
+.baris-ringkas:last-child { border-bottom: none; }

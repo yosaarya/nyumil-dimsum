@@ -114,3 +114,37 @@ export async function ringkasanHariIni() {
   if (error) throw error;
   return data;
 }
+
+/** Total pengeluaran hari ini, dasar hitung laba bersih kasar (omzet - pengeluaran). RLS: PEMILIK/ADMIN saja. */
+export async function pengeluaranHariIni() {
+  const hariIni = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+  const { data, error } = await supabase.from('pengeluaran').select('jumlah').eq('tanggal', hariIni);
+  if (error) throw error;
+  return data.reduce((t, r) => t + r.jumlah, 0);
+}
+
+/** Bahan yang stoknya di bawah batas minimum (v_stok_bahan.menipis), untuk Home. */
+export async function bahanMenipis() {
+  const { data, error } = await supabase
+    .from('v_stok_bahan')
+    .select('*')
+    .eq('menipis', true)
+    .order('nama')
+    .limit(5);
+  if (error) throw error;
+  return data;
+}
+
+/** Order WA terdekat yang sudah ada jadwal ambil/kirim, belum selesai/batal, untuk Home. */
+export async function orderTerdekat() {
+  const { data, error } = await supabase
+    .from('pesanan')
+    .select('id, nomor_antrian, nama_pelanggan, waktu_ambil, diantar')
+    .eq('kanal', 'WA')
+    .not('status', 'in', '(SELESAI,BATAL)')
+    .not('waktu_ambil', 'is', null)
+    .order('waktu_ambil')
+    .limit(5);
+  if (error) throw error;
+  return data;
+}
