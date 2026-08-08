@@ -1,4 +1,5 @@
-// js/views/kasir-varian.js — sheet pilihan varian wajib/opsional (F-02, B-02).
+// js/views/produk-varian.js — sheet pilihan varian wajib/opsional (F-02, B-02).
+// Dipakai bersama oleh tab Sales dan Order — bukan spesifik satu tab.
 // Produk dengan grup_pilihan wajib tidak bisa masuk keranjang sebelum dipilih.
 import { el, bukaSheet } from '../ui.js';
 import { rupiah } from '../format.js';

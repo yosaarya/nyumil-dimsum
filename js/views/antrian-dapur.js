@@ -1,53 +1,43 @@
-// js/views/dapur.js — F-07: antrian dapur, centang per item, Siap -> Selesai.
+// js/views/antrian-dapur.js — F-07: antrian dapur, centang per item, Siap -> Selesai.
+// Bukan tab sendiri lagi — ditempel sebagai seksi di dalam tab Sales (pesanan
+// kedai) dan Order (pesanan WA) lewat renderAntrian(container, filterFn).
 // Lihat docs/01-PRD.md §3.3 (Alur C), §5 (acceptance F-07), CLAUDE.md B-10/B-11.
 import { antrianDapur, tandaiItemSelesai, ubahStatusPesanan } from '../api.js';
 import { jamId } from '../format.js';
 import { el, toast } from '../ui.js';
 
-export async function render(container) {
-  container.innerHTML =
-    '<div style="padding:var(--s5);text-align:center;color:var(--abu-kabut);">Memuat antrian...</div>';
+/**
+ * @param {HTMLElement} container slot khusus milik pemanggil (bukan seluruh isi tab)
+ * @param {(p: object) => boolean} filterFn pesanan mana yang ditampilkan di slot ini
+ */
+export async function renderAntrian(container, filterFn) {
   try {
-    await gambarUlang(container);
+    const semua = (await antrianDapur()).filter(filterFn);
+    gambarUlang(container, filterFn, semua);
   } catch (error) {
     container.innerHTML = '';
     container.appendChild(
-      el('div', { style: 'padding:var(--s5);text-align:center;color:var(--sambal);' }, [
-        el('div', {}, 'Gagal memuat antrian dapur. Cek sinyal.'),
-        el('div', { style: 'font-size:var(--t-xs);color:var(--abu-kabut);margin-top:var(--s2);' },
-          error?.message || String(error)),
-        el('button', { class: 'btn btn--kedua', style: 'margin-top:var(--s3);', onclick: () => render(container) }, 'Coba Lagi'),
-      ])
+      el('div', { style: 'padding:var(--s4) 0;color:var(--sambal);font-size:var(--t-sm);' },
+        `Gagal memuat antrian dapur: ${error?.message || error}`)
     );
   }
 }
 
-async function gambarUlang(container) {
-  const semua = await antrianDapur();
+function gambarUlang(container, filterFn, semua) {
   const berjalan = semua.filter((p) => p.status === 'DIKONFIRMASI' || p.status === 'DIBUAT');
   const siap = semua.filter((p) => p.status === 'SIAP');
 
   container.innerHTML = '';
-
-  if (semua.length === 0) {
-    container.appendChild(
-      el('div', { style: 'padding:var(--s6) var(--s5);text-align:center;color:var(--abu-kabut);' },
-        'Belum ada pesanan. Enak nih, santai dulu.')
-    );
-    return;
-  }
-
-  const bungkus = el('div', { style: 'padding:var(--s4);' });
-  container.appendChild(bungkus);
+  if (semua.length === 0) return; // seksi diam saja kalau tidak ada apa-apa untuk filter ini
 
   if (berjalan.length > 0) {
-    bungkus.appendChild(el('div', { class: 'judul-seksi' }, 'Sedang Disiapkan'));
-    berjalan.forEach((p) => bungkus.appendChild(kartuBerjalan(p, container)));
+    container.appendChild(el('div', { class: 'judul-seksi' }, 'Sedang Disiapkan'));
+    berjalan.forEach((p) => container.appendChild(kartuBerjalan(p, container, filterFn)));
   }
 
   if (siap.length > 0) {
-    bungkus.appendChild(el('div', { class: 'judul-seksi' }, 'Siap Diambil'));
-    siap.forEach((p) => bungkus.appendChild(kartuSiap(p, container)));
+    container.appendChild(el('div', { class: 'judul-seksi' }, 'Siap Diambil'));
+    siap.forEach((p) => container.appendChild(kartuSiap(p, container, filterFn)));
   }
 }
 
@@ -76,7 +66,7 @@ function headerKartu(p) {
   return { header, telat };
 }
 
-function kartuBerjalan(p, container) {
+function kartuBerjalan(p, container, filterFn) {
   const { header, telat } = headerKartu(p);
   const items = [...p.pesanan_item].sort((a, b) => a.urutan - b.urutan);
   const semuaSelesai = () => items.every((i) => i.selesai_dibuat);
@@ -135,7 +125,7 @@ function kartuBerjalan(p, container) {
     tombolSiap.disabled = true;
     try {
       await ubahStatusPesanan(p.id, 'SIAP');
-      await render(container);
+      await renderAntrian(container, filterFn);
     } catch (error) {
       tombolSiap.disabled = false;
       toast('Gagal ubah status: ' + (error?.message || error));
@@ -154,14 +144,14 @@ function kartuBerjalan(p, container) {
   ]);
 }
 
-function kartuSiap(p, container) {
+function kartuSiap(p, container, filterFn) {
   const { header, telat } = headerKartu(p);
   const tombolSelesai = el('button', { class: 'btn btn--utama tombol-siap' }, 'SELESAI (sudah diambil & lunas)');
   tombolSelesai.addEventListener('click', async () => {
     tombolSelesai.disabled = true;
     try {
       await ubahStatusPesanan(p.id, 'SELESAI');
-      await render(container);
+      await renderAntrian(container, filterFn);
     } catch (error) {
       tombolSelesai.disabled = false;
       toast('Belum bisa diselesaikan: ' + (error?.message || error));

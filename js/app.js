@@ -1,13 +1,13 @@
 // js/app.js — bootstrap, routing tab, gate login. Lihat docs/02-ARCHITECTURE.md §2, §5.
 import { supabase } from './api.js';
 import { renderLogin, keluar } from './auth.js';
-import * as kasir from './views/kasir.js';
-import * as wa from './views/wa.js';
-import * as dapur from './views/dapur.js';
-import * as stok from './views/stok.js';
-import * as laporan from './views/laporan.js';
+import * as home from './views/home.js';
+import * as sales from './views/sales.js';
+import * as order from './views/order.js';
+import * as inventory from './views/inventory.js';
+import * as finance from './views/finance.js';
 
-const VIEWS = { kasir, wa, dapur, stok, laporan };
+const VIEWS = { home, sales, order, inventory, finance };
 
 const barAtas = document.getElementById('bar-atas');
 const isiTab = document.getElementById('isi-tab');
@@ -30,7 +30,7 @@ function bukaTab(nama) {
 function tampilkanAplikasi() {
   barAtas.hidden = false;
   tabBar.hidden = false;
-  bukaTab(location.hash.replace('#', '') || 'kasir');
+  bukaTab(location.hash.replace('#', '') || 'home');
 }
 
 function tampilkanLogin() {

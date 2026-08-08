@@ -1,11 +1,13 @@
-// js/views/kasir.js — F-01..F-05, F-08: katalog, keranjang, cek pesanan.
+// js/views/sales.js — F-01..F-05, F-08: katalog, keranjang, cek pesanan.
+// Plus antrian dapur pesanan kedai digabung di bawahnya (bukan tab terpisah).
 // Lihat docs/01-PRD.md §3.1 (Alur A) dan §4 (Fase 1).
 import { katalogProduk, daftarKategori } from '../api.js';
 import * as store from '../store.js';
 import { rupiah } from '../format.js';
 import { el, bukaSheet } from '../ui.js';
-import { pilihVarian } from './kasir-varian.js';
-import { tampilkanKonfirmasi, kirimUlangPending } from './kasir-konfirmasi.js';
+import { pilihVarian } from './produk-varian.js';
+import { tampilkanKonfirmasi, kirimUlangPending } from './sales-konfirmasi.js';
+import { renderAntrian } from './antrian-dapur.js';
 
 let kanal = 'DINE_IN';
 let kategoriAktif = null;
@@ -95,6 +97,10 @@ function gambarKatalog(container) {
   container.appendChild(el('div', { class: 'kasir-toggle-kanal' }, tombolKanal));
   container.appendChild(el('div', { class: 'kategori-baris' }, [chipSemua, ...chipKategori]));
   container.appendChild(el('div', { class: 'grid-produk' }, kartuProduk));
+
+  const bagianDapur = el('div', { style: 'padding: 0 var(--s4) 96px;' });
+  container.appendChild(bagianDapur);
+  renderAntrian(bagianDapur, (p) => p.kanal !== 'WA');
 
   gambarBarPesanan(container);
 }

@@ -1,9 +1,9 @@
-// js/views/wa-pesanan.js — F-06: form pesanan WA -> pilih menu -> Cek Pesanan -> rekap.
+// js/views/order-pesanan.js — F-06: form order WA -> pilih menu -> Cek Pesanan -> rekap.
 // Lihat docs/01-PRD.md §3.2 (Alur B), CLAUDE.md B-26/B-27.
 import { katalogProduk, daftarKategori, buatPesanan } from '../api.js';
 import { rupiah, jamId, labelHari, normalisasiNoWa } from '../format.js';
 import { el, sembunyikanShell, tampilkanShell, toast } from '../ui.js';
-import { pilihVarian } from './kasir-varian.js';
+import { pilihVarian } from './produk-varian.js';
 
 let produkCache = null;
 let kategoriCache = null;
@@ -64,7 +64,7 @@ function renderForm(container, onSelesai) {
   container.innerHTML = '';
   container.appendChild(
     el('div', { style: 'padding:var(--s5);' }, [
-      el('div', { class: 'sheet__judul' }, 'Pesanan WA Baru'),
+      el('div', { class: 'sheet__judul' }, 'Order Baru'),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputNama]),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputNoWa]),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputWaktu]),

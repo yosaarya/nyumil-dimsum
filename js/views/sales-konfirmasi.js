@@ -1,4 +1,4 @@
-// js/views/kasir-konfirmasi.js — Layar Cek Pesanan (F-04, elemen tanda pengenal
+// js/views/sales-konfirmasi.js — Layar Cek Pesanan (F-04, elemen tanda pengenal
 // di docs/03-DESIGN.md §1) + pembayaran (F-08) + simpan pesanan (B-01, B-08).
 import { buatPesanan, catatPembayaran } from '../api.js';
 import * as store from '../store.js';

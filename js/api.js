@@ -112,3 +112,15 @@ export async function catatPembayaran(pesananId, p) {
   });
   if (error) throw error;
 }
+
+/** Ringkasan tab Home — null kalau belum ada pesanan SELESAI hari ini (B-24: hari ini = Asia/Jakarta). */
+export async function ringkasanHariIni() {
+  const hariIni = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jakarta' }).format(new Date());
+  const { data, error } = await supabase
+    .from('v_penjualan_harian')
+    .select('*')
+    .eq('tanggal', hariIni)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}

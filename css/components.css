@@ -551,3 +551,20 @@
   box-shadow: var(--bayang-panel);
   z-index: 30;
 }
+
+/* Tab Home */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+  margin-top: var(--s4);
+}
+.kartu-stat {
+  background: var(--putih-gading);
+  border-radius: var(--r-md);
+  box-shadow: var(--bayang-kartu);
+  padding: var(--s4);
+  text-align: center;
+}
+.kartu-stat__nilai { font-family: var(--font-angka); font-size: var(--t-2xl); font-weight: 700; color: var(--merah-marun); }
+.kartu-stat__label { font-size: var(--t-sm); color: var(--abu-kabut); margin-top: var(--s1); }
