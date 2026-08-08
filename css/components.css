@@ -1,8 +1,15 @@
 /* css/components.css — kerangka global + komponen dasar. Lihat docs/03-DESIGN.md §3-4. */
 
+/* Guard: pastikan atribut hidden menang walau ada aturan display di bawah */
+.bar-atas[hidden],
+.tab-bar[hidden] {
+  display: none;
+}
+
 .bar-atas {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 56px;
   padding: 0 var(--s4);
   padding-top: env(safe-area-inset-top);
@@ -14,6 +21,12 @@
   font-family: var(--font-merek);
   font-weight: 600;
   font-size: var(--t-lg);
+}
+.bar-atas__profil {
+  font-size: var(--t-lg);
+  color: var(--putih-gading);
+  min-height: var(--sentuh-min);
+  min-width: var(--sentuh-min);
 }
 
 .isi-tab {
@@ -68,6 +81,54 @@
   min-height: 120px;
 }
 .kartu-produk--terpilih { border: 2px solid var(--hijau-kukusan); }
+
+/* Layar login */
+.login-bungkus {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s5);
+}
+.login-kartu {
+  width: 100%;
+  max-width: 360px;
+  background: var(--putih-gading);
+  border-radius: var(--r-lg);
+  box-shadow: var(--bayang-kartu);
+  padding: var(--s6) var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+.login-judul {
+  font-family: var(--font-merek);
+  font-weight: 600;
+  font-size: var(--t-2xl);
+  color: var(--hijau-kukusan);
+  text-align: center;
+}
+.login-sub {
+  color: var(--abu-kabut);
+  text-align: center;
+  margin-bottom: var(--s2);
+}
+.input-login {
+  height: var(--sentuh-min);
+  border: 1px solid var(--garis);
+  border-radius: var(--r-sm);
+  padding: 0 var(--s3);
+  background: var(--krem-kukus);
+}
+.login-pesan {
+  color: var(--sambal);
+  font-size: var(--t-sm);
+  min-height: 1em;
+}
+.login-tombol {
+  width: 100%;
+  margin-top: var(--s2);
+}
 
 /* Badge status */
 .lencana {

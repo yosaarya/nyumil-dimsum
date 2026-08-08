@@ -14,13 +14,14 @@
 </head>
 <body>
   <div id="app">
-    <header class="bar-atas">
+    <header class="bar-atas" id="bar-atas" hidden>
       <span class="bar-atas__judul">Nyumil Dimsum</span>
+      <button class="bar-atas__profil" id="btn-profil" aria-label="Keluar">👤</button>
     </header>
 
     <main id="isi-tab" class="isi-tab"></main>
 
-    <nav class="tab-bar" id="tab-bar">
+    <nav class="tab-bar" id="tab-bar" hidden>
       <button class="tab-bar__item" data-tab="kasir" aria-current="page">🧾<span>Kasir</span></button>
       <button class="tab-bar__item" data-tab="wa">💬<span>WA</span></button>
       <button class="tab-bar__item" data-tab="dapur">🍳<span>Dapur</span></button>

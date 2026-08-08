@@ -8,6 +8,9 @@ const APP_SHELL = [
   '/css/base.css',
   '/css/components.css',
   '/js/app.js',
+  '/js/api.js',
+  '/js/auth.js',
+  '/js/ui.js',
 ];
 
 self.addEventListener('install', (event) => {
