@@ -1,8 +1,12 @@
 // js/api.js — SATU-SATUNYA file yang boleh memanggil Supabase langsung.
 // Isinya fungsi domain, bukan query mentah. Lihat docs/02-ARCHITECTURE.md §3.1
 // dan aturan B3 di CLAUDE.md: jangan taruh service_role key di sini, hanya anon key.
+//
+// createClient diambil dari js/vendor/supabase-js.umd.js (dimuat lewat <script>
+// biasa di index.html sebelum file ini), bukan CDN esm.sh — supaya aplikasi
+// tidak gagal total kalau sinyal seluler lemot pas dibuka pertama kali.
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const { createClient } = window.supabase;
 
 const SUPABASE_URL = 'https://wdzhvboiinpfqwbhvxda.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZkwB6t5Qqtc3d40FF0jLDA_v14bABtK';

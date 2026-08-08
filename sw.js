@@ -1,5 +1,5 @@
 // Cache app shell. Naikkan versi CACHE setiap deploy supaya iOS tidak nyangkut di versi lama.
-const CACHE = 'nyumil-v2';
+const CACHE = 'nyumil-v3';
 const APP_SHELL = [
   '/',
   '/index.html',
@@ -7,6 +7,7 @@ const APP_SHELL = [
   '/css/tokens.css',
   '/css/base.css',
   '/css/components.css',
+  '/js/vendor/supabase-js.umd.js',
   '/js/app.js',
   '/js/api.js',
   '/js/auth.js',
