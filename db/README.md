@@ -11,14 +11,14 @@ Aturan: file yang sudah pernah dijalankan **tidak pernah diedit**. Perubahan ber
 | 005 | `migrations/005_jaga_status_security_definer.sql` | ☑ Sudah | 8 Agu 2026 |
 | 006 | `migrations/006_menu_asli.sql` | ☑ Sudah | 8 Agu 2026 |
 | 007 | `migrations/007_grant_akses_dasar.sql` | ☑ Sudah | 8 Agu 2026 |
-| 008 | `migrations/008_tambah_stok_bahan.sql` | ☐ Belum | |
-| 009 | `migrations/009_topping_pilih_banyak.sql` | ☐ Belum | |
-| 010 | `migrations/010_jumlah_opsi_addon.sql` | ☐ Belum | |
-| 011 | `migrations/011_simpan_resep.sql` | ☐ Belum | |
-| 012 | `migrations/012_produk_olahan_dapur.sql` | ☐ Belum | |
-| 013 | `migrations/013_ubah_pesanan.sql` | ☐ Belum | |
+| 008 | `migrations/008_tambah_stok_bahan.sql` | ☑ Sudah | 9 Agu 2026 |
+| 009 | `migrations/009_topping_pilih_banyak.sql` | ☑ Sudah | 9 Agu 2026 |
+| 010 | `migrations/010_jumlah_opsi_addon.sql` | ☑ Sudah | 9 Agu 2026 |
+| 011 | `migrations/011_simpan_resep.sql` | ☑ Sudah | 9 Agu 2026 |
+| 012 | `migrations/012_produk_olahan_dapur.sql` | ☑ Sudah | 9 Agu 2026 |
+| 013 | `migrations/013_ubah_pesanan.sql` | ☑ Sudah | 9 Agu 2026 |
 
-**Migrasi terakhir yang sudah jalan di Supabase: 007.**
+**Migrasi terakhir yang sudah jalan di Supabase: 013.**
 
 Cara jalankan: buka Supabase SQL Editor → tempel isi file berurutan → Run. Update tabel di atas setiap selesai menjalankan satu file.
 
