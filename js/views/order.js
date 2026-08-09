@@ -4,7 +4,7 @@
 import { daftarPesananWa, konfirmasiPelangganWa } from '../api.js';
 import { rupiah, jamId, labelHari } from '../format.js';
 import { el, toast } from '../ui.js';
-import { mulaiPesananBaru } from './order-pesanan.js';
+import { mulaiPesananBaru, mulaiUbahPesanan } from './order-pesanan.js';
 import { renderAntrian } from './antrian-dapur.js';
 
 export async function render(container) {
@@ -98,6 +98,10 @@ function kartuOrder(p, container) {
     });
     kartu.appendChild(tombol);
   }
+
+  const tombolUbah = el('button', { class: 'btn btn--kedua', style: 'margin-top:var(--s2);' }, 'Ubah Pesanan');
+  tombolUbah.addEventListener('click', () => mulaiUbahPesanan(container, p, () => render(container)));
+  kartu.appendChild(tombolUbah);
 
   return kartu;
 }

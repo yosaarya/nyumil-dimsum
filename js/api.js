@@ -22,6 +22,13 @@ export async function buatPesanan(payload) {
   return data;
 }
 
+/** F-04/B-06: ubah item pesanan setelah dikonfirmasi — wajib alasan. Lihat db/migrations/013_ubah_pesanan.sql. */
+export async function ubahPesanan(payload) {
+  const { data, error } = await supabase.rpc('ubah_pesanan', { p: payload });
+  if (error) throw error;
+  return data;
+}
+
 /**
  * Antrian dapur lengkap dengan item + opsi (bukan cuma ringkasan v_antrian_dapur).
  * Pesanan WA yang belum ditandai "pelanggan sudah konfirmasi" sengaja tidak

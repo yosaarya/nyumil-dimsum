@@ -1,6 +1,6 @@
 // js/views/order-pesanan.js — F-06: form order WA -> pilih menu -> Cek Pesanan -> rekap.
 // Lihat docs/01-PRD.md §3.2 (Alur B), CLAUDE.md B-26/B-27.
-import { katalogProduk, buatPesanan } from '../api.js';
+import { katalogProduk, buatPesanan, ubahPesanan } from '../api.js';
 import { rupiah, jamId, labelHari, normalisasiNoWa, labelOpsi } from '../format.js';
 import { el, sembunyikanShell, tampilkanShell, toast } from '../ui.js';
 import { pilihVarian } from './produk-varian.js';
@@ -9,22 +9,56 @@ let produkCache = null;
 
 export function mulaiPesananBaru(container, onSelesai) {
   sembunyikanShell();
-  renderForm(container, onSelesai);
+  const data = { nama: '', noWa: '', waktu: '', diantar: false, alamat: '', catatanBayar: '' };
+  renderForm(container, data, [], onSelesai);
 }
 
-function renderForm(container, onSelesai) {
-  const data = { nama: '', noWa: '', waktu: '', diantar: false, alamat: '', catatanBayar: '' };
+/** F-04/B-06: buka form Order pra-isi dari pesanan yang sudah ada, wajib isi alasan sebelum simpan. */
+export function mulaiUbahPesanan(container, pesanan, onSelesai) {
+  sembunyikanShell();
+  const data = {
+    nama: pesanan.nama_pelanggan || '',
+    noWa: pesanan.no_wa || '',
+    waktu: keDatetimeLocal(pesanan.waktu_ambil),
+    diantar: pesanan.diantar,
+    alamat: pesanan.alamat_antar || '',
+    catatanBayar: '',
+    editMode: true,
+    pesananId: pesanan.id,
+  };
+  const keranjang = (pesanan.pesanan_item || []).map((it) => ({
+    produk_id: it.produk_id,
+    nama_produk: it.nama_produk,
+    harga_satuan: it.harga_satuan,
+    jumlah: it.jumlah,
+    catatan: it.catatan,
+    subtotal: it.subtotal,
+    opsi: (it.pesanan_item_opsi || []).map((o) => ({
+      opsi_id: o.opsi_id, nama_grup: o.nama_grup, nama_opsi: o.nama_opsi,
+      harga_tambahan: o.harga_tambahan, jumlah: o.jumlah,
+    })),
+  }));
+  renderForm(container, data, keranjang, onSelesai);
+}
 
-  const inputNama = el('input', { class: 'input', placeholder: 'Nama pelanggan' });
-  const inputNoWa = el('input', { class: 'input', type: 'tel', placeholder: 'No. WA, contoh 08123456789' });
-  const inputWaktu = el('input', { class: 'input', type: 'datetime-local' });
-  const inputAlamat = el('input', { class: 'input', placeholder: 'Alamat antar' });
-  const bungkusAlamat = el('div', { style: 'margin-top:var(--s2);display:none;' }, [inputAlamat]);
+function keDatetimeLocal(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function renderForm(container, data, keranjangAwal, onSelesai) {
+  const inputNama = el('input', { class: 'input', placeholder: 'Nama pelanggan', value: data.nama });
+  const inputNoWa = el('input', { class: 'input', type: 'tel', placeholder: 'No. WA, contoh 08123456789', value: data.noWa });
+  const inputWaktu = el('input', { class: 'input', type: 'datetime-local', value: data.waktu });
+  const inputAlamat = el('input', { class: 'input', placeholder: 'Alamat antar', value: data.alamat });
+  const bungkusAlamat = el('div', { style: `margin-top:var(--s2);display:${data.diantar ? 'block' : 'none'};` }, [inputAlamat]);
   const inputBayar = el('input', { class: 'input', placeholder: 'Info pembayaran (opsional)' });
   const elGalat = el('div', { class: 'bayar-galat' });
 
-  const tombolAmbil = el('button', { class: 'pill pill--aktif' }, 'Ambil Sendiri');
-  const tombolAntar = el('button', { class: 'pill' }, 'Diantar');
+  const tombolAmbil = el('button', { class: `pill${!data.diantar ? ' pill--aktif' : ''}` }, 'Ambil Sendiri');
+  const tombolAntar = el('button', { class: `pill${data.diantar ? ' pill--aktif' : ''}` }, 'Diantar');
   tombolAmbil.addEventListener('click', () => {
     data.diantar = false;
     tombolAmbil.className = 'pill pill--aktif';
@@ -50,7 +84,7 @@ function renderForm(container, onSelesai) {
     if (!data.noWa) { elGalat.textContent = 'Nomor WA wajib diisi.'; return; }
     if (data.diantar && !data.alamat) { elGalat.textContent = 'Alamat antar wajib diisi.'; return; }
     elGalat.textContent = '';
-    renderKatalog(container, data, [], onSelesai);
+    renderKatalog(container, data, keranjangAwal, onSelesai);
   });
 
   const tombolBatal = el('button', { class: 'btn btn--ketiga' }, 'Batal');
@@ -62,7 +96,7 @@ function renderForm(container, onSelesai) {
   container.innerHTML = '';
   container.appendChild(
     el('div', { style: 'padding:var(--s5);' }, [
-      el('div', { class: 'sheet__judul' }, 'Order Baru'),
+      el('div', { class: 'sheet__judul' }, data.editMode ? 'Ubah Pesanan' : 'Order Baru'),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputNama]),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputNoWa]),
       el('div', { style: 'margin-bottom:var(--s3);' }, [inputWaktu]),
@@ -183,8 +217,24 @@ function renderKonfirmasi(container, data, keranjang, onSelesai) {
   const tombolUbah = el('button', { class: 'btn btn--kedua' }, 'Ubah');
   tombolUbah.addEventListener('click', () => gambarKatalog(container, data, keranjang, onSelesai));
 
-  const tombolSimpan = el('button', { class: 'btn btn--utama' }, 'Simpan & Buat Rekap');
-  tombolSimpan.addEventListener('click', () => simpanDanRekap(container, data, keranjang, onSelesai, tombolSimpan));
+  const tombolSimpan = el('button', { class: 'btn btn--utama' }, data.editMode ? 'Simpan Perubahan' : 'Simpan & Buat Rekap');
+  const elGalatAlasan = el('div', { class: 'bayar-galat' });
+  const inputAlasan = el('input', { class: 'input', placeholder: 'Alasan perubahan (wajib, minimal 5 karakter)' });
+
+  tombolSimpan.addEventListener('click', () => {
+    if (data.editMode) {
+      const alasan = inputAlasan.value.trim();
+      if (alasan.length < 5) {
+        elGalatAlasan.textContent = 'Alasan perubahan wajib diisi (minimal 5 karakter).';
+        return;
+      }
+      elGalatAlasan.textContent = '';
+      data.alasan = alasan;
+      simpanPerubahan(container, data, keranjang, onSelesai, tombolSimpan);
+    } else {
+      simpanDanRekap(container, data, keranjang, onSelesai, tombolSimpan);
+    }
+  });
 
   container.innerHTML = '';
   container.appendChild(
@@ -197,7 +247,8 @@ function renderKonfirmasi(container, data, keranjang, onSelesai) {
         el('hr', { class: 'struk__garis' }),
         el('div', { class: 'struk__total' }, [el('span', {}, 'TOTAL'), el('span', {}, rupiah(total))]),
       ]),
-      el('div', { class: 'konfirmasi-pertanyaan' }, 'Sudah benar?'),
+      el('div', { class: 'konfirmasi-pertanyaan' }, data.editMode ? 'Ubah pesanan ini?' : 'Sudah benar?'),
+      ...(data.editMode ? [inputAlasan, elGalatAlasan] : []),
       el('div', { class: 'konfirmasi-tombol-baris' }, [tombolUbah, tombolSimpan]),
     ])
   );
@@ -230,6 +281,38 @@ async function simpanDanRekap(container, data, keranjang, onSelesai, tombolSimpa
     tombolSimpan.disabled = false;
     tombolSimpan.textContent = 'Coba Lagi';
     toast('Gagal simpan. Cek sinyal, lalu tekan Coba Lagi.');
+  }
+}
+
+async function simpanPerubahan(container, data, keranjang, onSelesai, tombolSimpan) {
+  tombolSimpan.disabled = true;
+  tombolSimpan.textContent = 'Menyimpan...';
+
+  const payload = {
+    pesanan_id: data.pesananId,
+    alasan: data.alasan,
+    nama_pelanggan: data.nama,
+    no_wa: normalisasiNoWa(data.noWa),
+    waktu_ambil: data.waktu ? new Date(data.waktu).toISOString() : null,
+    diantar: data.diantar,
+    alamat_antar: data.diantar ? data.alamat : null,
+    items: keranjang.map((item) => ({
+      produk_id: item.produk_id,
+      jumlah: item.jumlah,
+      catatan: item.catatan || null,
+      opsi: (item.opsi || []).map((o) => ({ opsi_id: o.opsi_id, jumlah: o.jumlah })),
+    })),
+  };
+
+  try {
+    await ubahPesanan(payload);
+    tampilkanShell();
+    toast('Perubahan pesanan tersimpan.');
+    onSelesai();
+  } catch (error) {
+    tombolSimpan.disabled = false;
+    tombolSimpan.textContent = 'Simpan Perubahan';
+    toast('Gagal simpan: ' + (error?.message || error));
   }
 }
 
